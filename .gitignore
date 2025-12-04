@@ -89,7 +89,6 @@ bin/
 
 # IntelliJ IDEA
 *.iws
-out/
 
 # NetBeans
 nbproject/private/
@@ -130,7 +129,6 @@ $RECYCLE.BIN/
 .idea/
 *.iml
 *.ipr
-*.iws
 
 # Sublime Text
 *.sublime-project
@@ -169,10 +167,6 @@ coverage/
 # ===================================
 logs
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
 
 # ===================================
 # Temporary files
@@ -181,8 +175,6 @@ tmp/
 temp/
 *.tmp
 *.bak
-*.swp
-*.swo
 
 # ===================================
 # Build outputs
