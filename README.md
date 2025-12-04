@@ -1,7 +1,3 @@
-# Hikr
-
-Hikr ist eine moderne Wander- und Outdoor-Tracking-Anwendung, die als Mono-Repository organisiert ist. Das Projekt kombiniert eine leistungsstarke Backend-API mit plattformübergreifenden Frontend-Anwendungen.
-
 ## 📁 Projekt-Struktur
 
 Dieses Mono-Repository ist in folgende Workspaces unterteilt:
@@ -74,3 +70,5 @@ Weitere Informationen folgen.
 ## 👥 Beiträge
 
 Beiträge sind willkommen! Bitte beachten Sie die Contribution-Guidelines im `docs/`-Verzeichnis.
+=======
+siehe Copilor Branch
