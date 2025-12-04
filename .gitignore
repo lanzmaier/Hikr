@@ -16,11 +16,7 @@ yarn.lock
 # ===================================
 # React Native
 # ===================================
-# OSX
-.DS_Store
-
 # Xcode
-build/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -39,11 +35,8 @@ DerivedData
 project.xcworkspace
 
 # Android/IntelliJ
-build/
-.idea
 .gradle
 local.properties
-*.iml
 *.hprof
 .cxx/
 *.keystore
@@ -63,12 +56,10 @@ fastlane/test_output
 
 # Expo
 .expo/
-dist/
 web-build/
 expo-env.d.ts
 
 # React Native
-.expo
 .expo-shared
 *.jks
 *.p8
@@ -99,14 +90,10 @@ bin/
 # IntelliJ IDEA
 *.iws
 out/
-.idea/
-*.iml
 
 # NetBeans
 nbproject/private/
-build/
 nbbuild/
-dist/
 nbdist/
 .nb-gradle/
 
@@ -129,7 +116,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # Linux
-*~
 .directory
 .Trash-*
 
@@ -153,7 +139,6 @@ $RECYCLE.BIN/
 # Vim
 *.swp
 *.swo
-*~
 
 # Emacs
 *~
@@ -202,8 +187,8 @@ temp/
 # ===================================
 # Build outputs
 # ===================================
-dist/
 build/
+dist/
 out/
 .next/
 .nuxt/
