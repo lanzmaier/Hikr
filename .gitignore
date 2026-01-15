@@ -1,23 +1,169 @@
-# ===================================
-# Node.js & NPM
-# ===================================
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
-.npm
-.yarn-integrity
-package-lock.json
-yarn.lock
-.pnp
-.pnp.js
+# Git Ignore für Hikr Mono-Repository
+# Ignoriert Dateien für alle drei Plattformen: Node.js, Java/Maven, React Native
 
-# ===================================
-# React Native
-# ===================================
-# Xcode
-*.pbxuser
+# ============================================================================
+# SYSTEM & IDE
+# ============================================================================
+.DS_Store
+Thumbs.db
+.env
+.env.local
+.env.*.local
+*.log
+*.logs
+.vscode/launch.json.tmp
+
+# ============================================================================
+# NODE.JS / NPM (Web & Mobile Frontends)
+# ============================================================================
+frontend-web/node_modules/
+frontend-web/dist/
+frontend-web/build/
+frontend-web/.env.local
+frontend-web/.env.development.local
+frontend-web/.env.test.local
+frontend-web/.env.production.local
+frontend-web/npm-debug.log*
+frontend-web/yarn-debug.log*
+frontend-web/yarn-error.log*
+frontend-web/.next/
+frontend-web/out/
+frontend-web/.vercel/
+
+frontend-mobile/node_modules/
+frontend-mobile/dist/
+frontend-mobile/build/
+frontend-mobile/.env.local
+frontend-mobile/npm-debug.log*
+frontend-mobile/yarn-debug.log*
+frontend-mobile/yarn-error.log*
+
+# ============================================================================
+# REACT NATIVE SPECIFIC (Mobile Frontend)
+# ============================================================================
+frontend-mobile/.gradle/
+frontend-mobile/local.properties
+frontend-mobile/.idea/
+frontend-mobile/*.iml
+frontend-mobile/android/.gradle/
+frontend-mobile/android/build/
+frontend-mobile/android/local.properties
+frontend-mobile/ios/Pods/
+frontend-mobile/ios/Podfile.lock
+frontend-mobile/.metro-bundler-cache
+
+# ============================================================================
+# JAVA / MAVEN (Backend)
+# ============================================================================
+backend/target/
+backend/build/
+backend/.gradle/
+backend/*.jar
+backend/*.war
+backend/*.ear
+backend/.classpath
+backend/.project
+backend/.settings/
+backend/.DS_Store
+backend/bin/
+backend/out/
+backend/.idea/
+backend/*.iml
+backend/.vscode/
+backend/dependency-check-report.html
+
+# Maven Wrapper
+backend/.mvn/wrapper/maven-wrapper.jar
+
+# ============================================================================
+# DATABASE & LOCAL ENVIRONMENT
+# ============================================================================
+*.db
+*.sqlite
+*.sqlite3
+*.log
+db_backup/
+
+# ============================================================================
+# OS SPECIFIC
+# ============================================================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
+
+# ============================================================================
+# IDE SPECIFIC (VSCode, IntelliJ, WebStorm)
+# ============================================================================
+.vscode/workspace.json
+.idea/
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/vcs.xml
+.idea/codeStyles/
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.c9/
+*.swp
+*.swo
+*~
+.cproject
+.pydevproject
+.settings/
+.texlipse
+
+# ============================================================================
+# BUILD ARTIFACTS & CACHE
+# ============================================================================
+dist/
+build/
+.cache/
+.gradle/
+*.class
+*.jar
+*.war
+*.zip
+*.tar.gz
+
+# ============================================================================
+# GENERATED FILES (DO NOT TRACK)
+# ============================================================================
+frontend-web/src/generated/
+frontend-mobile/src/generated/
+backend/src/generated/
+
+# ============================================================================
+# TEMP FILES
+# ============================================================================
+*.tmp
+*.bak
+*.swp
+*~
+
+# ============================================================================
+# COVERAGE REPORTS
+# ============================================================================
+coverage/
+*.lcov
+.nyc_output/
+htmlcov/
+
+# ============================================================================
+# DOCKER
+# ============================================================================
+.docker/
+docker-compose.override.yml
+
+# ============================================================================
+# CI/CD (aber nicht .github/workflows)
+# ============================================================================
+.env.ci
+ci-cache/
 !default.pbxuser
 *.mode1v3
 !default.mode1v3

@@ -1,0 +1,591 @@
+openapi: 3.0.3
+info:
+  title: Hikr - Tour & Matching API
+  description: |
+    API für die Hikr-Plattform zur Verwaltung von Wandertouren, Planung von Gruppentouren und Matching von Wanderern.
+    
+    **Domänen:**
+    - Tour-Verwaltung (Touren anlegen, suchen, filtern)
+    - Tour-Planung (Geplante Touren)
+    - Matching & Gruppenbildung
+    - Benutzer-Management
+  version: 1.0.0
+  contact:
+    name: Hikr Team
+    url: https://hikr.example.com
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Local Development Server
+  - url: https://api.hikr.example.com/v1
+    description: Production Server
+
+paths:
+  /tours:
+    get:
+      tags:
+        - Tours
+      summary: Liste aller verfügbaren Touren
+      operationId: getTours
+      parameters:
+        - name: location
+          in: query
+          description: Geolokation zum Filtern (latitude,longitude)
+          schema:
+            type: string
+        - name: distance
+          in: query
+          description: Maximale Entfernung in km
+          schema:
+            type: number
+        - name: difficulty
+          in: query
+          description: Schwierigkeitsgrad (EASY, MODERATE, HARD)
+          schema:
+            type: string
+        - name: skip
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Liste von Touren
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tour'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+    post:
+      tags:
+        - Tours
+      summary: Neue Tour erstellen
+      operationId: createTour
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTourRequest'
+      responses:
+        '201':
+          description: Tour erfolgreich erstellt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tour'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /tours/{tourId}:
+    get:
+      tags:
+        - Tours
+      summary: Details einer Tour
+      operationId: getTourById
+      parameters:
+        - name: tourId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Tour Details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TourDetail'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /planned-tours:
+    get:
+      tags:
+        - Planned Tours
+      summary: Liste geplanter Touren
+      operationId: getPlannedTours
+      parameters:
+        - name: skip
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Liste geplanter Touren
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PlannedTour'
+    post:
+      tags:
+        - Planned Tours
+      summary: Neue geplante Tour erstellen
+      operationId: createPlannedTour
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePlannedTourRequest'
+      responses:
+        '201':
+          description: Geplante Tour erstellt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlannedTour'
+
+  /matching:
+    post:
+      tags:
+        - Matching
+      summary: Matching-Prozess starten für geplante Tour
+      operationId: createMatching
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMatchingRequest'
+      responses:
+        '201':
+          description: Matching erstellt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Matching'
+
+  /users:
+    post:
+      tags:
+        - Users
+      summary: Neuer Benutzer registrieren
+      operationId: registerUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterUserRequest'
+      responses:
+        '201':
+          description: Benutzer registriert
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /users/me:
+    get:
+      tags:
+        - Users
+      summary: Aktueller Benutzer
+      operationId: getCurrentUser
+      responses:
+        '200':
+          description: Benutzer Info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+components:
+  schemas:
+    Tour:
+      type: object
+      required:
+        - id
+        - title
+        - startPoint
+        - distance
+        - duration
+        - difficulty
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          description: Tourname
+        description:
+          type: string
+          nullable: true
+        startPoint:
+          $ref: '#/components/schemas/Location'
+        endPoint:
+          $ref: '#/components/schemas/Location'
+          nullable: true
+        distance:
+          type: number
+          format: double
+          description: Distanz in km
+        duration:
+          type: integer
+          description: Dauer in Minuten
+        elevationGain:
+          type: integer
+          description: Höhenmeter (positiv)
+        difficulty:
+          type: string
+          enum: [EASY, MODERATE, HARD]
+        season:
+          type: string
+          description: Beste Jahreszeit
+        pathType:
+          type: string
+          description: Wegtyp (z.B. mountain, trail, road)
+        rating:
+          type: number
+          format: double
+          nullable: true
+          description: Durchschnittliche Bewertung (0-5)
+        warnings:
+          type: array
+          items:
+            type: string
+          nullable: true
+
+    TourDetail:
+      allOf:
+        - $ref: '#/components/schemas/Tour'
+        - type: object
+          properties:
+            elevationProfile:
+              type: string
+              nullable: true
+              description: Base64 oder URL zum Höhenprofil
+            wayDescription:
+              type: string
+              nullable: true
+            hazardWarnings:
+              type: array
+              items:
+                type: string
+              nullable: true
+            reviews:
+              type: array
+              items:
+                $ref: '#/components/schemas/Review'
+              nullable: true
+
+    Location:
+      type: object
+      required:
+        - latitude
+        - longitude
+      properties:
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        name:
+          type: string
+          nullable: true
+        parking:
+          $ref: '#/components/schemas/Parking'
+          nullable: true
+
+    Parking:
+      type: object
+      properties:
+        available:
+          type: boolean
+        spots:
+          type: integer
+          nullable: true
+        distance:
+          type: number
+          nullable: true
+          description: Entfernung vom Startpunkt in m
+        cost:
+          type: number
+          nullable: true
+          description: Kostenschätzung
+
+    CreateTourRequest:
+      type: object
+      required:
+        - title
+        - startPoint
+        - distance
+        - duration
+        - difficulty
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+          nullable: true
+        startPoint:
+          $ref: '#/components/schemas/Location'
+        endPoint:
+          $ref: '#/components/schemas/Location'
+          nullable: true
+        distance:
+          type: number
+          format: double
+        duration:
+          type: integer
+        elevationGain:
+          type: integer
+          nullable: true
+        difficulty:
+          type: string
+          enum: [EASY, MODERATE, HARD]
+        season:
+          type: string
+          nullable: true
+        pathType:
+          type: string
+          nullable: true
+
+    PlannedTour:
+      type: object
+      required:
+        - id
+        - tourId
+        - scheduledDate
+        - scheduledTime
+      properties:
+        id:
+          type: string
+          format: uuid
+        tourId:
+          type: string
+          format: uuid
+        tour:
+          $ref: '#/components/schemas/Tour'
+          nullable: true
+        scheduledDate:
+          type: string
+          format: date
+        scheduledTime:
+          type: string
+          format: time
+        startPoint:
+          $ref: '#/components/schemas/Location'
+        variants:
+          type: array
+          items:
+            type: object
+          nullable: true
+        participants:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+          nullable: true
+
+    CreatePlannedTourRequest:
+      type: object
+      required:
+        - tourId
+        - scheduledDate
+        - scheduledTime
+      properties:
+        tourId:
+          type: string
+          format: uuid
+        scheduledDate:
+          type: string
+          format: date
+        scheduledTime:
+          type: string
+          format: time
+        variants:
+          type: array
+          items:
+            type: object
+          nullable: true
+
+    Matching:
+      type: object
+      required:
+        - id
+        - plannedTourId
+      properties:
+        id:
+          type: string
+          format: uuid
+        plannedTourId:
+          type: string
+          format: uuid
+        requests:
+          type: array
+          items:
+            $ref: '#/components/schemas/MatchingRequest'
+          nullable: true
+        suggestions:
+          type: array
+          items:
+            $ref: '#/components/schemas/MatchingGroup'
+          nullable: true
+        finalGroup:
+          $ref: '#/components/schemas/MatchingGroup'
+          nullable: true
+        status:
+          type: string
+          enum: [PENDING, PROCESSING, COMPLETED, CLOSED]
+
+    CreateMatchingRequest:
+      type: object
+      required:
+        - plannedTourId
+      properties:
+        plannedTourId:
+          type: string
+          format: uuid
+
+    MatchingRequest:
+      type: object
+      required:
+        - id
+        - userId
+        - type
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum: [OFFER, SEARCH]
+        criteria:
+          type: object
+          nullable: true
+
+    MatchingGroup:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        score:
+          type: number
+          nullable: true
+          description: Matching-Punktzahl
+
+    User:
+      type: object
+      required:
+        - id
+        - username
+        - email
+      properties:
+        id:
+          type: string
+          format: uuid
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        firstName:
+          type: string
+          nullable: true
+        lastName:
+          type: string
+          nullable: true
+        profileImage:
+          type: string
+          nullable: true
+        location:
+          $ref: '#/components/schemas/Location'
+          nullable: true
+
+    RegisterUserRequest:
+      type: object
+      required:
+        - username
+        - email
+        - password
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+        firstName:
+          type: string
+          nullable: true
+        lastName:
+          type: string
+          nullable: true
+
+    Review:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+        comment:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+
+  responses:
+    BadRequest:
+      description: Ungültige Anfrage
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentifizierung erforderlich
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Ressource nicht gefunden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string

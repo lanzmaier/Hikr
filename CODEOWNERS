@@ -1,0 +1,57 @@
+# Hikr - Code Ownership und Review-Anforderungen
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# ============================================================================
+# BACKEND TEAM
+# ============================================================================
+backend/   @backend-team
+/backend/
+
+# ============================================================================
+# WEB FRONTEND TEAM
+# ============================================================================
+frontend-web/   @frontend-team
+/frontend-web/
+
+# ============================================================================
+# MOBILE FRONTEND TEAM
+# ============================================================================
+frontend-mobile/   @mobile-team
+/frontend-mobile/
+
+# ============================================================================
+# SHARED RESOURCES - ALLE TEAMS
+# ============================================================================
+# Änderungen an gemeinsamen Ressourcen erfordern Genehmigung aller Teams!
+# Dies verhindert, dass API-Breaking-Changes oder Design-Änderungen ohne
+# Absprache eingeführt werden.
+shared-resources/   @backend-team @frontend-team @mobile-team
+/shared-resources/
+shared-resources/api-contracts/   @backend-team @frontend-team @mobile-team
+shared-resources/design-tokens/   @backend-team @frontend-team @mobile-team
+shared-resources/documentation/   @backend-team @frontend-team @mobile-team
+
+# ============================================================================
+# INFRASTRUKTUR & CI/CD
+# ============================================================================
+infra/   @backend-team @devops-team
+/.github/workflows/   @backend-team @devops-team
+.github/workflows/backend.yml   @backend-team
+.github/workflows/web.yml   @frontend-team
+.github/workflows/mobile.yml   @mobile-team
+
+# ============================================================================
+# REPOSITORY-KONFIGURATION
+# ============================================================================
+.gitignore   @all-teams
+CODEOWNERS   @all-teams
+README.md   @all-teams
+hikr-*.code-workspace   @all-teams
+.vscode/   @all-teams
+docs/   @all-teams
+
+# ============================================================================
+# DOKUMENTATION
+# ============================================================================
+*.md   @all-teams
+docs/   @all-teams

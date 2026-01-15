@@ -1,0 +1,70 @@
+name: Web Frontend CI
+
+on:
+  push:
+    paths:
+      - "frontend-web/**"
+      - "shared-resources/api-contracts/**"
+      - ".github/workflows/web.yml"
+    branches:
+      - main
+      - develop
+  pull_request:
+    paths:
+      - "frontend-web/**"
+      - "shared-resources/api-contracts/**"
+      - ".github/workflows/web.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: "frontend-web/package-lock.json"
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: frontend-web
+
+      - name: Run linter
+        run: npm run lint
+        working-directory: frontend-web
+
+      - name: Run tests
+        run: npm test -- --ci --coverage
+        working-directory: frontend-web
+
+      - name: Build
+        run: npm run build
+        working-directory: frontend-web
+
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./frontend-web/coverage/lcov.info
+          flags: web
+          name: web-coverage
+        if: always()
+
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Snyk security scan
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --file=frontend-web/package.json
+        continue-on-error: true

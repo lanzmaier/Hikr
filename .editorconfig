@@ -1,0 +1,46 @@
+root = true
+
+# Alle Dateien
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+
+# JavaScript/TypeScript
+[*.{js,jsx,ts,tsx,mjs}]
+indent_size = 2
+
+# JSON
+[*.json]
+indent_size = 2
+
+# YAML
+[*.{yml,yaml}]
+indent_size = 2
+
+# Python
+[*.py]
+indent_size = 4
+
+# Java
+[*.java]
+indent_size = 2
+
+# XML (Maven)
+[*.xml]
+indent_size = 2
+
+# Markdown
+[*.md]
+trim_trailing_whitespace = false
+insert_final_newline = false
+
+# Bash/Shell
+[*.{sh,bash}]
+indent_size = 2
+
+# Docker
+[Dockerfile]
+indent_size = 2

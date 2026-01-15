@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: hikr-postgres
+    environment:
+      POSTGRES_USER: hikr
+      POSTGRES_PASSWORD: hikr_dev_password
+      POSTGRES_DB: hikr_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hikr"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - hikr-network
+
+  adminer:
+    image: adminer:latest
+    container_name: hikr-adminer
+    ports:
+      - "8081:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - hikr-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: hikr-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - hikr-network
+
+volumes:
+  postgres_data:
+
+networks:
+  hikr-network:
+    driver: bridge

@@ -1,0 +1,102 @@
+name: Backend CI
+
+on:
+  push:
+    paths:
+      - "backend/**"
+      - "shared-resources/api-contracts/**"
+      - ".github/workflows/backend.yml"
+    branches:
+      - main
+      - develop
+  pull_request:
+    paths:
+      - "backend/**"
+      - "shared-resources/api-contracts/**"
+      - ".github/workflows/backend.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java-version: ['21']
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: hikr
+          POSTGRES_PASSWORD: hikr_test_pass
+          POSTGRES_DB: hikr_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK ${{ matrix.java-version }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: "temurin"
+          cache: "maven"
+
+      - name: Build and Test
+        run: mvn -B clean verify
+        working-directory: backend
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/hikr_test
+          SPRING_DATASOURCE_USERNAME: hikr
+          SPRING_DATASOURCE_PASSWORD: hikr_test_pass
+
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./backend/target/site/jacoco/jacoco.xml
+          flags: backend
+          name: backend-coverage
+        if: always()
+
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: "temurin"
+          cache: "maven"
+
+      - name: Run security checks
+        run: mvn -B clean verify -DskipTests -P security
+        working-directory: backend
+        continue-on-error: true
+
+  code-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: "temurin"
+          cache: "maven"
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        continue-on-error: true
