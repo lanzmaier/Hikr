@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="de"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "forest": "#0d1a0d",
+                        "forest-light": "#1b2e1b",
+                        "moss": "#60a05b",
+                        "moss-bright": "#82c97b",
+                        "slate-gray": "#475569",
+                        "primary": "#60a05b",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        body {
+            font-family: "Plus Jakarta Sans", sans-serif;
+            background-color: #f8fafc;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sidebar-link.active {
+            background-color: rgba(96, 160, 91, 0.1);
+            color: #60a05b;
+            border-right: 3px solid #60a05b;
+        }
+        .status-badge-active { @apply bg-emerald-100 text-emerald-700 border border-emerald-200; }
+        .status-badge-inactive { @apply bg-slate-100 text-slate-600 border border-slate-200; }
+        .status-badge-locked { @apply bg-red-100 text-red-700 border border-red-200; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="flex min-h-screen bg-slate-50">
+<aside class="w-64 bg-forest text-white hidden md:flex flex-col flex-shrink-0">
+<div class="p-6 flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-moss/20 border border-moss/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-moss-bright">landscape</span>
+</div>
+<div>
+<h1 class="font-extrabold text-lg leading-none">hikr</h1>
+<span class="text-[10px] uppercase tracking-widest text-moss-bright font-medium">Admin Portal</span>
+</div>
+</div>
+<nav class="flex-1 mt-6">
+<a class="sidebar-link flex items-center gap-3 px-6 py-4 text-slate-400 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="sidebar-link active flex items-center gap-3 px-6 py-4 transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-medium">Benutzerverwaltung</span>
+</a>
+<a class="sidebar-link flex items-center gap-3 px-6 py-4 text-slate-400 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-medium">Routen &amp; Pfade</span>
+</a>
+<a class="sidebar-link flex items-center gap-3 px-6 py-4 text-slate-400 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">reviews</span>
+<span class="font-medium">Bewertungen</span>
+</a>
+<a class="sidebar-link flex items-center gap-3 px-6 py-4 text-slate-400 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-medium">Systemeinstellungen</span>
+</a>
+</nav>
+<div class="p-6 border-t border-white/5">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-full bg-slate-700 overflow-hidden">
+<img alt="Admin Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKcgS-NMpSMVCNtgH9jrUFcHS8xzN9CH0VIcoWT-Y7juI8B-fBCbkaHQXEtq7AjExllsCVt_vrA0R9iS2ZwVC0NVvjRgyoR9L0poSWUn_VNOaV-q9ndbCHUfoqX0q4OgTm7ucKntHROfu4sl2Hro35oEWwLfJouQOxlMKUi-ViPpPYRjqUS3-dxKdS4diJ1SPk_pn3aN4WP6Uie8z5JL3d1wnPJ3An9D8PoJc0WpjtjXy8nL2RFHsAePz5lP1mIKyWLkd1TI8LRw21"/>
+</div>
+<div class="flex-1 overflow-hidden">
+<p class="text-sm font-semibold truncate">Max Bergmann</p>
+<p class="text-[10px] text-slate-500 truncate uppercase tracking-wider">Super Admin</p>
+</div>
+</div>
+<a class="flex items-center gap-2 text-slate-400 hover:text-red-400 transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-sm">logout</span>
+                Abmelden
+            </a>
+</div>
+</aside>
+<main class="flex-1 flex flex-col h-screen overflow-hidden">
+<header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 z-10">
+<h2 class="text-xl font-bold text-forest">Benutzerverwaltung</h2>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="bg-forest text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-forest-light transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">person_add</span>
+                    Neuer Benutzer
+                </button>
+</div>
+</header>
+<div class="flex-1 overflow-auto p-8">
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 mb-6 flex flex-col md:flex-row gap-4 items-center">
+<div class="relative flex-1 w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-moss/50 focus:border-moss transition-all outline-none" placeholder="Suche nach Name, E-Mail..." type="text"/>
+</div>
+<div class="flex items-center gap-3 w-full md:w-auto">
+<select class="bg-slate-50 border border-slate-200 rounded-xl py-2 pl-3 pr-8 text-sm text-slate-600 focus:ring-moss transition-all outline-none cursor-pointer">
+<option>Alle Status</option>
+<option>Aktiv</option>
+<option>Inaktiv</option>
+<option>Gesperrt</option>
+</select>
+<select class="bg-slate-50 border border-slate-200 rounded-xl py-2 pl-3 pr-8 text-sm text-slate-600 focus:ring-moss transition-all outline-none cursor-pointer">
+<option>Sortieren nach...</option>
+<option>Registrierungsdatum</option>
+<option>Alphabetisch</option>
+</select>
+<button class="flex items-center gap-2 px-4 py-2 text-slate-600 hover:bg-slate-50 border border-transparent hover:border-slate-200 rounded-xl transition-all">
+<span class="material-symbols-outlined">filter_list</span>
+<span class="hidden lg:inline text-sm">Filter</span>
+</button>
+</div>
+</div>
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-slate-50 border-b border-slate-200">
+<tr>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Benutzername</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">E-Mail-Adresse</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Registrierungsdatum</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Aktionen</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-moss/10 flex items-center justify-center text-moss font-bold text-xs">LH</div>
+<span class="font-semibold text-slate-700">Lukas_Hiker92</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600">lukas.mueller@example.com</td>
+<td class="px-6 py-4">
+<span class="status-badge-active px-2.5 py-1 rounded-full text-xs font-medium">Aktiv</span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">12. Okt 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-forest transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 font-bold text-xs">ST</div>
+<span class="font-semibold text-slate-700">Sarah_Trail</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600">s.tannenbaum@web.de</td>
+<td class="px-6 py-4">
+<span class="status-badge-inactive px-2.5 py-1 rounded-full text-xs font-medium">Inaktiv</span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">05. Sep 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-forest transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-600 font-bold text-xs">BK</div>
+<span class="font-semibold text-slate-700">BergKönig_88</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600">kalle88@gmail.com</td>
+<td class="px-6 py-4">
+<span class="status-badge-locked px-2.5 py-1 rounded-full text-xs font-medium">Gesperrt</span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">22. Aug 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-forest transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-moss/10 flex items-center justify-center text-moss font-bold text-xs">EF</div>
+<span class="font-semibold text-slate-700">Elena_Forest</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600">elena.f@hikr.com</td>
+<td class="px-6 py-4">
+<span class="status-badge-active px-2.5 py-1 rounded-full text-xs font-medium">Aktiv</span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">14. Aug 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-forest transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-moss/10 flex items-center justify-center text-moss font-bold text-xs">MN</div>
+<span class="font-semibold text-slate-700">MountainNomad</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600">nomad@hiking-world.org</td>
+<td class="px-6 py-4">
+<span class="status-badge-active px-2.5 py-1 rounded-full text-xs font-medium">Aktiv</span>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">02. Aug 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-forest transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
+<p class="text-sm text-slate-500">Zeige <span class="font-semibold text-slate-700">1-5</span> von <span class="font-semibold text-slate-700">1.240</span> Benutzern</p>
+<div class="flex gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 bg-white text-slate-400 hover:bg-slate-50 disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-moss bg-moss/10 text-moss font-bold text-xs">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 text-xs">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 text-xs">3</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 bg-white text-slate-400 hover:bg-slate-50">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+</body></html>

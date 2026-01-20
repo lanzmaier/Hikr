@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "forest": "#0d1a0d",
+                        "forest-light": "#1b2e1b",
+                        "moss": "#60a05b",
+                        "moss-bright": "#82c97b",
+                        "slate-gray": "#475569",
+                        "primary": "#60a05b",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        body {
+            font-family: "Plus Jakarta Sans", sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(25, 43, 25, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen relative flex items-center justify-center p-4 bg-forest">
+<div class="fixed inset-0 z-0">
+<div class="absolute inset-0 bg-gradient-to-b from-forest/60 via-forest/40 to-forest/90 z-10"></div>
+<img alt="Dense foggy forest" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMVsB5p1sAHG-N5_vlEp-H0r47thAPzS_UqI7U4JeRKkMCeNGOD5nib1fMfyIv87MDPcXbPM-2cUVJtMZViyflQXNrq8s77AD6xeKIq1IHlZ675JdJP9T_xUMpS8MD8t3hqbSuyiV44rLSTkXaK2_2TSgWPpuIn_Q1zFNtI5cxTBGnoV766Xw6XV113iPqU7utFJ2O3T2XY30DQx3A-3noDAglxYtLEROQxg8Db_DZYXDIQFpGmW3nA9rfXkF1Q3-P5DFyyUhRJ4eg"/>
+</div>
+<div class="relative z-20 w-full max-w-[400px] flex flex-col items-center">
+<div class="mb-10 text-center">
+<div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-moss/20 border border-moss/30 mb-4 shadow-xl">
+<span class="material-symbols-outlined text-moss-bright text-4xl">landscape</span>
+</div>
+<h1 class="text-white text-3xl font-extrabold tracking-tight">hikr <span class="text-moss-bright font-medium uppercase text-sm tracking-widest block mt-1">Admin Portal</span></h1>
+</div>
+<div class="glass-panel w-full rounded-3xl p-8 shadow-2xl">
+<div class="mb-8">
+<h2 class="text-white text-xl font-semibold">Authorized Access</h2>
+<p class="text-slate-400 text-sm mt-1">Please enter your admin credentials</p>
+</div>
+<form class="space-y-6">
+<div>
+<label class="block text-slate-300 text-xs font-bold uppercase tracking-wider mb-2 px-1">Admin Email</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-xl">admin_panel_settings</span>
+<input class="w-full h-14 pl-12 pr-4 bg-forest/50 border border-white/10 rounded-xl text-white placeholder:text-slate-600 focus:ring-2 focus:ring-moss/50 focus:border-moss/50 transition-all outline-none" placeholder="admin@hikr.com" type="email"/>
+</div>
+</div>
+<div>
+<label class="block text-slate-300 text-xs font-bold uppercase tracking-wider mb-2 px-1">Password</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-xl">lock</span>
+<input class="w-full h-14 pl-12 pr-12 bg-forest/50 border border-white/10 rounded-xl text-white placeholder:text-slate-600 focus:ring-2 focus:ring-moss/50 focus:border-moss/50 transition-all outline-none" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-moss transition-colors" type="button">
+<span class="material-symbols-outlined text-xl">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between px-1">
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 rounded bg-forest/50 border-white/10 text-moss focus:ring-moss focus:ring-offset-0" type="checkbox"/>
+<span class="text-xs text-slate-400 group-hover:text-slate-200 transition-colors">Keep session active</span>
+</label>
+<a class="text-xs text-moss hover:text-moss-bright font-semibold transition-colors" href="#">Recovery</a>
+</div>
+<button class="w-full h-14 bg-forest border border-white/5 hover:bg-forest-light text-moss-bright font-bold text-base rounded-xl shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2 group" type="submit">
+<span>Admin Login</span>
+<span class="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</form>
+</div>
+<div class="mt-8 flex flex-col items-center gap-4">
+<p class="text-slate-500 text-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">shield</span>
+                Secure Environment
+            </p>
+<div class="flex gap-6">
+<a class="text-slate-400 hover:text-white text-[10px] uppercase tracking-widest font-bold" href="#">System Status</a>
+<a class="text-slate-400 hover:text-white text-[10px] uppercase tracking-widest font-bold" href="#">Privacy</a>
+<a class="text-slate-400 hover:text-white text-[10px] uppercase tracking-widest font-bold" href="#">Support</a>
+</div>
+</div>
+</div>
+
+</body></html>

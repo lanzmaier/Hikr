@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html class="light" lang="de"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "forest-dark": "#1a2e1a",
+                        "forest-mid": "#2d4a2d",
+                        "forest-light": "#4a7c4a",
+                        "primary": "#2d5a27",
+                        "nature-bg": "#f8faf8",
+                        "accent-earth": "#a67c52",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        body {
+            font-family: "Plus Jakarta Sans", sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-nav {
+            @apply bg-forest-mid text-white border-l-4 border-white;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-nature-bg min-h-screen flex flex-col text-slate-800">
+<header class="bg-forest-dark text-white p-4 flex items-center justify-between sticky top-0 z-50">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-white">landscape</span>
+<span class="font-bold text-lg tracking-tight">hikr admin</span>
+</div>
+<button class="p-2">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<div class="flex-1 flex flex-col">
+<nav class="fixed bottom-0 left-0 right-0 bg-forest-dark text-white flex justify-around items-center py-3 border-t border-forest-mid z-50">
+<a class="flex flex-col items-center gap-1 opacity-100" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-medium">Übersicht</span>
+</a>
+<a class="flex flex-col items-center gap-1 opacity-60" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-[10px] font-medium">Benutzer</span>
+</a>
+<a class="flex flex-col items-center gap-1 opacity-60" href="#">
+<span class="material-symbols-outlined">verified</span>
+<span class="text-[10px] font-medium">Touren</span>
+</a>
+<a class="flex flex-col items-center gap-1 opacity-60" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="text-[10px] font-medium">Stats</span>
+</a>
+</nav>
+<main class="p-4 mb-20">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h1 class="text-2xl font-bold text-forest-dark">Übersicht</h1>
+<p class="text-sm text-slate-500">Willkommen zurück, Admin</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-forest-light flex items-center justify-center text-white overflow-hidden shadow-sm">
+<img alt="Admin Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCD3awU5rCAQezRARiZWqZ2O3UyATDXEp5wbAbbFev9BW2MQyvPkV88njCj8Zh0VxQ5eKNFLLWdMqizXlV1EPy7Sm5ULVh_HhEwGVsquuthukb1OKli_aERQaR2Br1s0hyFZhSHXTfTMjk0monNioltIvRGnQsD6ol8n3diqlS-HlSQQASoZBrwnXIpiNVflJus8GNvR3fKJUTqA2OEjxX2qk16exmBEhBQ2YAt01AepEk2aG9PIb6W7jD9BGPlY1PP2sMfU4CpDL3u"/>
+</div>
+</div>
+<div class="grid grid-cols-1 gap-4 mb-8">
+<div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+<div class="bg-green-100 text-green-700 p-3 rounded-xl">
+<span class="material-symbols-outlined">hiking</span>
+</div>
+<div>
+<p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Aktive Wanderer</p>
+<p class="text-2xl font-bold text-slate-800">12.482</p>
+<span class="text-[11px] text-green-600 font-medium">+5.2% heute</span>
+</div>
+</div>
+<div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+<div class="bg-amber-100 text-amber-700 p-3 rounded-xl">
+<span class="material-symbols-outlined">map</span>
+</div>
+<div>
+<p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Neue Touren</p>
+<p class="text-2xl font-bold text-slate-800">154</p>
+<span class="text-[11px] text-amber-600 font-medium">32 warten auf Freigabe</span>
+</div>
+</div>
+<div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+<div class="bg-red-100 text-red-700 p-3 rounded-xl">
+<span class="material-symbols-outlined">report</span>
+</div>
+<div>
+<p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Gemeldete Gruppen</p>
+<p class="text-2xl font-bold text-slate-800">8</p>
+<span class="text-[11px] text-red-600 font-medium">Dringend prüfen</span>
+</div>
+</div>
+</div>
+<div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 mb-8">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-bold text-forest-dark">Nutzerwachstum</h3>
+<select class="text-xs border-none bg-slate-50 rounded-lg py-1 px-2 font-medium">
+<option>Letzte 7 Tage</option>
+<option>Letzter Monat</option>
+</select>
+</div>
+<div class="h-40 w-full relative flex items-end justify-between px-2 gap-2">
+<div class="flex-1 bg-forest-light/10 rounded-t-sm h-1/4 relative group">
+<div class="absolute bottom-0 left-0 right-0 bg-forest-light/30 h-full rounded-t-sm"></div>
+</div>
+<div class="flex-1 bg-forest-light/10 rounded-t-sm h-2/4 relative">
+<div class="absolute bottom-0 left-0 right-0 bg-forest-light/40 h-full rounded-t-sm"></div>
+</div>
+<div class="flex-1 bg-forest-light/10 rounded-t-sm h-1/2 relative">
+<div class="absolute bottom-0 left-0 right-0 bg-forest-light/40 h-full rounded-t-sm"></div>
+</div>
+<div class="flex-1 bg-forest-light/10 rounded-t-sm h-3/4 relative">
+<div class="absolute bottom-0 left-0 right-0 bg-forest-light/50 h-full rounded-t-sm"></div>
+</div>
+<div class="flex-1 bg-forest-light/10 rounded-t-sm h-2/3 relative">
+<div class="absolute bottom-0 left-0 right-0 bg-forest-light/50 h-full rounded-t-sm"></div>
+</div>
+<div class="flex-1 bg-forest-light/10 rounded-t-sm h-5/6 relative">
+<div class="absolute bottom-0 left-0 right-0 bg-forest-light/70 h-full rounded-t-sm"></div>
+</div>
+<div class="flex-1 bg-forest-light/10 rounded-t-sm h-full relative">
+<div class="absolute bottom-0 left-0 right-0 bg-forest-light h-full rounded-t-sm"></div>
+</div>
+</div>
+<div class="flex justify-between text-[10px] text-slate-400 mt-2 px-1">
+<span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
+</div>
+</div>
+<div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+<div class="p-5 border-b border-slate-50 flex justify-between items-center">
+<h3 class="font-bold text-forest-dark">Community-Beiträge</h3>
+<button class="text-xs font-bold text-forest-light uppercase">Alle zeigen</button>
+</div>
+<div class="divide-y divide-slate-50">
+<div class="p-4 flex gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-100 flex-shrink-0">
+<img alt="User" class="rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0eJP7fQKRxXFQvPR7azORIrhcjYKip1WctJ1pEoxXWcyyBXh0O6qQ6nUpO498T6KvLKvysufIPium2vFRTRxsxjtjnJRfA7XcQWRhJpFWxrTyoJpbFpyfaBBxuXV1G4wdy7HrqXZ4vqD9dTspeOC64rTphmM9E6B4xPjsy1KaZTtB2JS-uE-La8n9cJ9fjyLFrJ0DQXvHDIr8Cvnw_yQxJQUp8YI3jfjaa2kD_N8Cev2-im84QoYbRQ-4rNTKlMY18uJEeDdw5bq0"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<p class="text-sm font-bold truncate">Sarah Müller</p>
+<span class="text-[10px] text-slate-400">Vor 5 Min</span>
+</div>
+<p class="text-xs text-slate-500 line-clamp-1 mt-0.5">"Wunderschöne Aussicht vom Watzmann heute!"</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-[9px] px-2 py-0.5 bg-green-50 text-green-700 rounded-full font-medium">Foto geteilt</span>
+</div>
+</div>
+</div>
+<div class="p-4 flex gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-100 flex-shrink-0">
+<img alt="User" class="rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAs1b3ewHNACe_sfLdFomr9l-aO_UK5rsd2vV0zZThAbeW4r6ACsZjzGRy5YH-LXGxcvVNiZG3rWDODjSwZaL65BZO3Hxm3lqjn-ukxzYGTZPhE-v1PmSTL3HjE0s5mD98YKnOyv4pKDpcaVzsC2nLb9icjpTppKqydIUX0uGdYs_-iGBt05ROeSnM6rn1UfDyllu7-hbLQ9HibDqTYDSBu4eo3dBwPIvh6T0SGG-aw4H7C55MyHXB3P0TcaJaK_iJgblpxqnVpp7X4"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<p class="text-sm font-bold truncate">Lukas Berg</p>
+<span class="text-[10px] text-slate-400">Vor 18 Min</span>
+</div>
+<p class="text-xs text-slate-500 line-clamp-1 mt-0.5">Hat die Tour "Schwarzwald-Trail" abgeschlossen.</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-[9px] px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full font-medium">Tour-Abschluss</span>
+</div>
+</div>
+</div>
+<div class="p-4 flex gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-100 flex-shrink-0">
+<img alt="User" class="rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0-opKG243rdwO-0AyA8pJ7qznYyybj42wBQWZHFsOi7piRuYnJZDSsf14p75a0G9Qy7VjymokCyBZF0Sjl_kXgbmjrT4hhYQLHIa-AbXQFCktOrq6CByrE8e6lwSob_3YxPvHIuITZYfgxmKdvfgtN1sjWWhb4fk-TiKVYauLQiiDcjtxbiD9IzaKJjX6NIooew0hqUj8bS_jUKAHmDU0hHK8VOpi6kMih8zTILkd_Mr_WHkLOwC0mr2SQOvBd6P1BeNiwGgJR2jA"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<p class="text-sm font-bold truncate">HikeMaster99</p>
+<span class="text-[10px] text-slate-400">Vor 1 Std</span>
+</div>
+<p class="text-xs text-slate-500 line-clamp-1 mt-0.5">Frage zur Wegbeschaffenheit am Wilden Kaiser...</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-[9px] px-2 py-0.5 bg-amber-50 text-amber-700 rounded-full font-medium">Frage</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<div class="h-16 w-full bg-transparent"></div>
+
+</body></html>
