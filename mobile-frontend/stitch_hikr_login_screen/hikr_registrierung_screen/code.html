@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="de"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ec13",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#102210",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(16, 34, 16, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white selection:bg-primary/30">
+<!-- Background Image Container -->
+<div class="fixed inset-0 w-full h-full z-0">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover" data-alt="Group of hikers celebrating on a mountain peak during sunset" style='background-image: linear-gradient(rgba(0,0,0,0.3), rgba(16,34,16,1)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBo6MtVyWTj3gp-r0qrQhI9QysamNRs56WhR44N7Se57zAaTfdhEcJ8OTyqaaXGXra6z05xLkCyZlhWsMWjckqlCBWN3s3r9HrEeLZGZ2-VNLg5BVPWY5nkT1_8fNeXcuLdm30bsG9FHyCy6HeyQQKlN7NdnKxIp8dmYbz_aGyT_mEuXE2X63isjyNHF96OEf-ii7d0eTk6jOySdEhmxm5UnFeI9trSuxvxl0yTQXup9r6OPyn9zvA8b73Pg8zFkC_KRCrJgmAFF-Xi");'>
+</div>
+</div>
+<!-- Main Content Wrapper (iOS Scroll Style) -->
+<div class="relative z-10 flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<div class="flex items-center p-4 pt-6 pb-2 justify-between">
+<div class="text-white flex size-12 shrink-0 items-center cursor-pointer" data-icon="ArrowBack" data-size="24px">
+<span class="material-symbols-outlined !text-[28px]">arrow_back_ios_new</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center pr-12">Registrierung</h2>
+</div>
+<!-- Spacer for visual breathing room -->
+<div class="flex-grow flex flex-col justify-end">
+<!-- Headline Section -->
+<div class="px-6 mb-4">
+<h1 class="text-white tracking-tight text-[32px] font-bold leading-tight">Werde Teil der hikr Community</h1>
+<p class="text-white/80 text-base font-normal leading-normal mt-2">Plane deine Touren und verbinde dich mit anderen Wanderern.</p>
+</div>
+<!-- Glass Form Container -->
+<div class="glass-panel rounded-t-[32px] px-6 pt-8 pb-12 shadow-2xl">
+<form class="space-y-4">
+<!-- TextField: Name -->
+<div class="flex flex-col gap-1.5">
+<p class="text-white/90 text-sm font-medium leading-normal px-1">Name</p>
+<div class="relative">
+<input class="form-input flex w-full rounded-xl text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-white/10 bg-white/5 focus:border-primary h-14 placeholder:text-white/30 px-4 text-base font-normal" placeholder="Dein Name" type="text"/>
+</div>
+</div>
+<!-- TextField: E-Mail -->
+<div class="flex flex-col gap-1.5">
+<p class="text-white/90 text-sm font-medium leading-normal px-1">E-Mail</p>
+<div class="relative">
+<input class="form-input flex w-full rounded-xl text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-white/10 bg-white/5 focus:border-primary h-14 placeholder:text-white/30 px-4 text-base font-normal" placeholder="beispiel@hikr.de" type="email"/>
+</div>
+</div>
+<!-- TextField: Passwort -->
+<div class="flex flex-col gap-1.5">
+<p class="text-white/90 text-sm font-medium leading-normal px-1">Passwort</p>
+<div class="relative">
+<input class="form-input flex w-full rounded-xl text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-white/10 bg-white/5 focus:border-primary h-14 placeholder:text-white/30 px-4 text-base font-normal" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<!-- Preferences Section -->
+<div class="pt-4 pb-2">
+<h3 class="text-white text-lg font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">landscape</span>
+                            Deine Wander-Präferenzen
+                        </h3>
+<!-- Difficulty Chips -->
+<div class="mb-4">
+<p class="text-white/70 text-xs font-bold uppercase tracking-wider mb-3">Schwierigkeitsgrad</p>
+<div class="flex flex-wrap gap-2">
+<button class="px-4 py-2 rounded-full border border-white/20 bg-white/5 text-sm font-medium hover:bg-white/10 transition-colors" type="button">Leicht</button>
+<button class="px-4 py-2 rounded-full border-2 border-primary bg-primary/20 text-primary text-sm font-bold" type="button">Mittel</button>
+<button class="px-4 py-2 rounded-full border border-white/20 bg-white/5 text-sm font-medium hover:bg-white/10 transition-colors" type="button">Schwer</button>
+</div>
+</div>
+<!-- Region Chips -->
+<div>
+<p class="text-white/70 text-xs font-bold uppercase tracking-wider mb-3">Bevorzugte Regionen</p>
+<div class="flex flex-wrap gap-2">
+<button class="px-4 py-2 rounded-full border-2 border-primary bg-primary text-background-dark text-sm font-bold" type="button">Alpen</button>
+<button class="px-4 py-2 rounded-full border border-white/20 bg-white/5 text-sm font-medium hover:bg-white/10 transition-colors" type="button">Mittelgebirge</button>
+<button class="px-4 py-2 rounded-full border border-white/20 bg-white/5 text-sm font-medium hover:bg-white/10 transition-colors" type="button">Küste</button>
+</div>
+</div>
+</div>
+<!-- CTA Button -->
+<div class="pt-6">
+<button class="w-full bg-primary hover:bg-primary/90 text-background-dark font-bold text-lg h-16 rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-transform active:scale-95">
+                            Abenteuer starten
+                            <span class="material-symbols-outlined">explore</span>
+</button>
+<p class="text-center text-white/60 text-sm mt-6">
+                            Bereits Mitglied? 
+                            <a class="text-primary font-bold hover:underline" href="#">Login</a>
+</p>
+</div>
+</form>
+</div>
+</div>
+</div>
+<!-- iOS Safe Area Spacer -->
+<div class="h-8 bg-background-dark w-full"></div>
+</body></html>
