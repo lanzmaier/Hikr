@@ -1,13 +1,13 @@
 # Backend DDD Agent
 
-**Zweck:** Unterstützung bei der Modellierung und Implementierung der Core Domain unter Verwendung von Domain-Driven Design Prinzipien.
+**Zweck:** Unterstützung bei der Modellierung und Implementierung der Domänen unter Verwendung von Domain-Driven Design Prinzipien.
 
 ## Verantwortlichkeiten
 
-- Hilft bei der Modellierung von **Bounded Contexts** (z.B. Tours, Matching, UserProfile)
+- Hilft bei der Modellierung und Implementierung von **Bounded Contexts** (z.B. Tours, Matching, UserProfile)
 - Unterstützt die Erstellung von **Entities, Aggregates und Domain Services**
 - Generiert **Repository-Interfaces** basierend auf Domain-Anforderungen
-- Stellt sicher, dass **Business Logic korrekt in Entities** liegt (nicht in Services)
+- Stellt sicher, dass **Business Logic korrekt in Aggregate** liegt (nicht in Services)
 - Validiert, dass **Value Objects immutable** sind
 
 ## Workflow
@@ -30,10 +30,8 @@ Output: Ubiquitous Language, Context Map, Aggregate Design
 Input: Domain Model
 ↓
 Generiere:
-- Entity-Klasse mit @Entity
-- Aggregate Root mit @AggregateRoot
 - Value Objects (z.B. Location, Distance)
-- Invarianten und Business Rules
+- auf Grund von Value Objects Entity-Klasse mit @Entity generieren
 ↓
 Output: Java Classes mit korrekten Annotations
 ```
