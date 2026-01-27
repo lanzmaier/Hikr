@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: hikr-app
+  main:
+    banner-mode: off
+  profiles:
+    active: dev
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when_authorized
+      probes:
+        enabled: true
+    info:
+      enabled: true
+
+logging:
+  level:
+    org.springframework.security: INFO
+    org.keycloak: INFO
