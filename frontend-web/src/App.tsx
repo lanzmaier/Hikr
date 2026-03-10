@@ -11,7 +11,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
-import ProtectedRoute from './components/ProtectedRoute';
+import ProtectedGuard from './components/organisms/ProtectedGuard';
 import LoginPage from './pages/LoginPage';
 import RegistrationPage from './pages/RegistrationPage';
 import DashboardPage from './pages/DashboardPage';
@@ -28,9 +28,9 @@ export const App: React.FC = () => {
           <Route
             path="/dashboard"
             element={
-              <ProtectedRoute>
+              <ProtectedGuard>
                 <DashboardPage />
-              </ProtectedRoute>
+              </ProtectedGuard>
             }
           />
 

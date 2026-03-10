@@ -1,0 +1,1 @@
+export { AuthBackgroundTemplate } from './AuthBackgroundTemplate';
