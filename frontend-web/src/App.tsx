@@ -14,7 +14,8 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedGuard from './components/organisms/ProtectedGuard';
 import LoginPage from './pages/LoginPage';
 import RegistrationPage from './pages/RegistrationPage';
-import DashboardPage from './pages/DashboardPage';
+import AdminOverviewPage from './pages/AdminOverviewPage';
+import AdminUsersPage from './pages/AdminUsersPage';
 
 export const App: React.FC = () => {
   return (
@@ -29,7 +30,15 @@ export const App: React.FC = () => {
             path="/dashboard"
             element={
               <ProtectedGuard>
-                <DashboardPage />
+                <AdminOverviewPage />
+              </ProtectedGuard>
+            }
+          />
+          <Route
+            path="/admin/users"
+            element={
+              <ProtectedGuard>
+                <AdminUsersPage />
               </ProtectedGuard>
             }
           />
