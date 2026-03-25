@@ -11,7 +11,7 @@
     <packaging>pom</packaging>
 
     <name>Hikr Backend</name>
-    <description>Hikr - Tour & Matching Platform Backend (Modular Monolith)</description>
+    <description>Hikr - Tour &amp; Matching Platform Backend (Modular Monolith)</description>
 
     <modules>
         <module>shared</module>

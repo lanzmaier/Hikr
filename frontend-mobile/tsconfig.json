@@ -1,0 +1,55 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "baseUrl": ".",
+    "paths": {
+      "@atoms/*": [
+        "presentation/atoms/*"
+      ],
+      "@molecules/*": [
+        "presentation/molecules/*"
+      ],
+      "@organisms/*": [
+        "presentation/organisms/*"
+      ],
+      "@pages/*": [
+        "presentation/pages/*"
+      ],
+      "@templates/*": [
+        "presentation/templates/*"
+      ],
+      "@models/*": [
+        "data/models/*"
+      ],
+      "@repositories/*": [
+        "data/repositories/*"
+      ],
+      "@context/*": [
+        "shared-resources/context/*"
+      ],
+      "@hooks/*": [
+        "shared-resources/hooks/*"
+      ],
+      "@navigation/*": [
+        "shared-resources/navigation/*"
+      ],
+      "@theme/*": [
+        "shared-resources/theme/*"
+      ],
+      "@utils/*": [
+        "shared-resources/utils/*"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
