@@ -1,0 +1,31 @@
+{
+  "expo": {
+    "name": "Hikr",
+    "slug": "hikr-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "backgroundColor": "#102210"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.hikr.mobile"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#102210"
+      },
+      "package": "com.hikr.mobile"
+    },
+    "plugins": [
+      "expo-font"
+    ],
+    "extra": {
+      "apiUrl": "http://192.168.31.194:8080/api/v1"
+    }
+  }
+}
