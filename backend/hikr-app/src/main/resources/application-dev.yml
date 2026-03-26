@@ -15,6 +15,7 @@ spring:
     open-in-view: false
   flyway:
     enabled: true
+    baseline-on-migrate: true
     locations: classpath:db/migration
   security:
     oauth2:
@@ -32,9 +33,14 @@ management:
 keycloak:
   admin:
     url: ${KEYCLOAK_URL:http://localhost:8081}
-    realm: ${KEYCLOAK_REALM:hikr}
+    login-realm: ${KEYCLOAK_ADMIN_LOGIN_REALM:master}
     client-id: ${KEYCLOAK_ADMIN_CLIENT_ID:admin-cli}
-    client-secret: ${KEYCLOAK_ADMIN_CLIENT_SECRET:change-me}
+    client-secret: ${KEYCLOAK_ADMIN_CLIENT_SECRET:}
     username: ${KEYCLOAK_ADMIN_USERNAME:admin}
     password: ${KEYCLOAK_ADMIN_PASSWORD:admin}
     grant-type: password
+  
+  app:
+    realm: ${KEYCLOAK_REALM:hikr}
+    client-id: ${KEYCLOAK_APP_CLIENT_ID:hikr-app}
+    client-secret: ${KEYCLOAK_APP_CLIENT_SECRET:zEjt1Uw7mrp9AzEHNMsTCmreR6Olbxbh}

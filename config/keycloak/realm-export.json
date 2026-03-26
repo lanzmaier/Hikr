@@ -1,0 +1,58 @@
+{
+  "realm": "hikr",
+  "enabled": true,
+  "clients": [
+    {
+      "clientId": "hikr-app",
+      "name": "Hikr App",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "zEjt1Uw7mrp9AzEHNMsTCmreR6Olbxbh",
+      "redirectUris": [
+        "http://localhost:3000/*",
+        "http://localhost:5173/*"
+      ],
+      "webOrigins": [
+        "http://localhost:5173",
+        "http://localhost:3000"
+      ],
+      "baseUrl": "http://localhost:3000",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "publicClient": false
+    }
+  ],
+  "roles": {
+    "realm": [
+      {
+        "name": "user"
+      },
+      {
+        "name": "guide"
+      },
+      {
+        "name": "admin"
+      }
+    ]
+  },
+  "users": [
+    {
+      "username": "admin",
+      "enabled": true,
+      "email": "admin@hikr.local",
+      "firstName": "Admin",
+      "lastName": "User",
+      "emailVerified": true,
+      "realmRoles": ["admin"],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin",
+          "temporary": false
+        }
+      ]
+    }
+  ]
+}

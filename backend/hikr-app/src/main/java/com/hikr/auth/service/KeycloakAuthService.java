@@ -3,6 +3,7 @@ package com.hikr.auth.service;
 import com.hikr.auth.dto.KeycloakTokenResponse;
 import com.hikr.auth.dto.LoginRequest;
 import com.hikr.auth.dto.RegisterRequest;
+import jakarta.ws.rs.NotAuthorizedException;
 import jakarta.ws.rs.core.Response;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.representations.idm.ClientRepresentation;
@@ -14,6 +15,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -26,9 +28,11 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -40,8 +44,6 @@ public class KeycloakAuthService {
     private final String appRealm;
     private final String appClientId;
     private final String appClientSecret;
-    private final String adminClientId;
-    private final String adminClientSecret;
     private final Set<String> requiredAdminRoles;
     private final Keycloak keycloakAdminClient;
 
@@ -50,16 +52,12 @@ public class KeycloakAuthService {
             @Value("${keycloak.app.realm:hikr}") String appRealm,
             @Value("${keycloak.app.client-id}") String appClientId,
             @Value("${keycloak.app.client-secret}") String appClientSecret,
-            @Value("${keycloak.admin.client-id}") String adminClientId,
-            @Value("${keycloak.admin.client-secret}") String adminClientSecret,
             @Value("${keycloak.admin.required-roles:admin}") String requiredAdminRoles,
             Keycloak keycloakAdminClient) {
         this.keycloakUrl = keycloakUrl;
         this.appRealm = appRealm;
         this.appClientId = appClientId;
         this.appClientSecret = appClientSecret;
-        this.adminClientId = adminClientId;
-        this.adminClientSecret = adminClientSecret;
         this.requiredAdminRoles = parseRoles(requiredAdminRoles);
         this.keycloakAdminClient = keycloakAdminClient;
     }
@@ -69,7 +67,10 @@ public class KeycloakAuthService {
     }
 
     public KeycloakTokenResponse loginAdmin(LoginRequest request) {
-        KeycloakTokenResponse tokenResponse = loginWithClient(request, adminClientId, adminClientSecret, false);
+        if (requiresPasswordChange(request.username())) {
+            throw new IllegalArgumentException("Login failed: password change required");
+        }
+        KeycloakTokenResponse tokenResponse = loginWithClient(request, appClientId, appClientSecret, false);
         if (!hasRequiredAdminRole(request.username())) {
             throw new IllegalArgumentException("Login failed: admin role required");
         }
@@ -96,19 +97,75 @@ public class KeycloakAuthService {
         passwordCredential.setValue(request.password());
         user.setCredentials(List.of(passwordCredential));
 
-        Response response = keycloakAdminClient.realm(appRealm).users().create(user);
-        int status = response.getStatus();
-        if (status == 201) {
-            String userId = extractUserId(response.getLocation());
+        try {
+            Response response = keycloakAdminClient.realm(appRealm).users().create(user);
+            int status = response.getStatus();
+            if (status == 201) {
+                String userId = extractUserId(response.getLocation());
+                response.close();
+                return userId;
+            }
+            if (status == 409) {
+                response.close();
+                throw new IllegalArgumentException("Registration failed: username or email already exists");
+            }
             response.close();
-            return userId;
+            throw new IllegalStateException("Registration failed in Keycloak with status: " + status);
+        } catch (NotAuthorizedException ex) {
+            throw new IllegalArgumentException("Registration failed: admin client unauthorized", ex);
         }
-        if (status == 409) {
-            response.close();
-            throw new IllegalArgumentException("Registration failed: username or email already exists");
+    }
+
+    public void requestPasswordReset(String usernameOrEmail) {
+        UserRepresentation user = findUserByUsernameOrEmail(usernameOrEmail)
+                .orElseThrow(() -> new IllegalArgumentException("Password reset failed: user not found"));
+        try {
+            List<String> currentActions = user.getRequiredActions() == null
+                    ? List.of()
+                    : user.getRequiredActions();
+            Set<String> mergedActions = new LinkedHashSet<>(currentActions);
+            mergedActions.add("UPDATE_PASSWORD");
+            user.setRequiredActions(List.copyOf(mergedActions));
+
+            keycloakAdminClient.realm(appRealm)
+                    .users()
+                    .get(user.getId())
+                    .update(user);
+        } catch (NotAuthorizedException ex) {
+            throw new IllegalArgumentException("Password reset failed: admin client unauthorized", ex);
+        } catch (Exception ex) {
+            throw new IllegalStateException("Password reset failed in Keycloak", ex);
         }
-        response.close();
-        throw new IllegalStateException("Registration failed in Keycloak with status: " + status);
+    }
+
+    public void logout(String refreshToken) {
+        if (!StringUtils.hasText(refreshToken)) {
+            throw new IllegalArgumentException("Logout failed: refresh token is required");
+        }
+
+        String logoutEndpoint = String.format("%s/realms/%s/protocol/openid-connect/logout", keycloakUrl, appRealm);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+        body.add("client_id", appClientId);
+        body.add("client_secret", appClientSecret);
+        body.add("refresh_token", refreshToken);
+
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(body, headers);
+
+        try {
+            ResponseEntity<Void> response = restTemplate.exchange(logoutEndpoint, HttpMethod.POST, entity, Void.class);
+            if (!response.getStatusCode().is2xxSuccessful() && response.getStatusCode() != HttpStatus.NO_CONTENT) {
+                throw new IllegalStateException("Logout failed in Keycloak with status: " + response.getStatusCode().value());
+            }
+        } catch (HttpStatusCodeException ex) {
+            // Logout should be idempotent: invalid or expired refresh token is treated as already logged out.
+            if (ex.getStatusCode().is4xxClientError()) {
+                return;
+            }
+            throw new IllegalStateException("Logout failed in Keycloak", ex);
+        }
     }
 
     private KeycloakTokenResponse loginWithClient(LoginRequest request, String clientId, String clientSecret) {
@@ -230,11 +287,8 @@ public class KeycloakAuthService {
     }
 
     private boolean hasRequiredAdminRole(String username) {
-        List<UserRepresentation> users = keycloakAdminClient.realm(appRealm).users().searchByUsername(username, true);
-        UserRepresentation matchedUser = users.stream()
-                .filter(user -> user.getUsername() != null && user.getUsername().equalsIgnoreCase(username))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Login failed: user not found"));
+        UserRepresentation matchedUser = findUserByUsername(username)
+            .orElseThrow(() -> new IllegalArgumentException("Login failed: user not found"));
 
         Set<String> userRoles = new HashSet<>();
 
@@ -280,6 +334,33 @@ public class KeycloakAuthService {
             }
         }
         return false;
+    }
+
+    private boolean requiresPasswordChange(String username) {
+        return findUserByUsername(username)
+                .map(UserRepresentation::getRequiredActions)
+                .filter(actions -> actions != null)
+                .map(actions -> actions.stream().anyMatch(action -> "UPDATE_PASSWORD".equalsIgnoreCase(action)))
+                .orElse(false);
+    }
+
+    private Optional<UserRepresentation> findUserByUsername(String username) {
+        List<UserRepresentation> users = keycloakAdminClient.realm(appRealm).users().searchByUsername(username, true);
+        return users.stream()
+                .filter(user -> user.getUsername() != null && user.getUsername().equalsIgnoreCase(username))
+                .findFirst();
+    }
+
+    private Optional<UserRepresentation> findUserByUsernameOrEmail(String usernameOrEmail) {
+        Optional<UserRepresentation> byUsername = findUserByUsername(usernameOrEmail);
+        if (byUsername.isPresent()) {
+            return byUsername;
+        }
+
+        List<UserRepresentation> users = keycloakAdminClient.realm(appRealm).users().searchByEmail(usernameOrEmail, true);
+        return users.stream()
+                .filter(user -> user.getEmail() != null && user.getEmail().equalsIgnoreCase(usernameOrEmail))
+                .findFirst();
     }
 
     private String normalizeRoleName(String roleName) {
